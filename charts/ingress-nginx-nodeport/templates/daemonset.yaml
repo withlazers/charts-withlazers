@@ -1,4 +1,4 @@
-{{ $ingessNginx := index .Values "ingress-nginx" -}}
+{{ $ingressNginx := index .Values "ingress-nginx" -}}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -28,13 +28,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: iptables
-          - command:
-            - /bin/sh
-            - -c
-            - |
-              iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.http }}
-              iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.https }}
-              sleep infinity
+          command:
+          - /bin/sh
+          - -c
+          - |
+            iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.nodePorts.http }}
+            iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.nodePorts.https }}
+            sleep infinity
           lifecycle:
             preStop:
               exec:
@@ -42,8 +42,8 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.http }}
-                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.https }}
+                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.nodePorts.http }}
+                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.nodePorts.https }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
