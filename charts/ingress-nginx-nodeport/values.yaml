@@ -32,7 +32,7 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext:
-  readOnlyRootFilesystem: true
+  #readOnlyRootFilesystem: true
   privileged: true
 
 resources:
