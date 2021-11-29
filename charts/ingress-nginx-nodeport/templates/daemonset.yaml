@@ -1,0 +1,68 @@
+{{ $ingessNginx := index .Values "ingress-nginx" -}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "ingress-nginx-nodeport.fullname" . }}-iptables
+  labels:
+    {{- include "ingress-nginx-nodeport.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "ingress-nginx-nodeport.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ingress-nginx-nodeport.selectorLabels" . | nindent 8 }}
+    spec:
+      hostNetwork: true
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ingress-nginx-nodeport.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: iptables
+          - command:
+            - /bin/sh
+            - -c
+            - |
+              iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.http }}
+              iptables -t nat -A PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.https }}
+              sleep infinity
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - |
+                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.http}} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.http }}
+                  iptables -t nat -D PREROUTING -i eth0 -p tcp --dport {{ .Values.ports.https }} -j REDIRECT --to-port {{ $ingressNginx.controller.service.NodePorts.https }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

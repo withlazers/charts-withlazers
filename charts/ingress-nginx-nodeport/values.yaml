@@ -1,0 +1,54 @@
+ingress-nginx:
+  controller:
+    service:
+      type: NodePort
+      nodePorts:
+        http: 32080
+        https: 32443
+        #tcp:
+        #  8080: 32808
+
+ports:
+  http: 80
+  https: 443
+
+image:
+  repository: ghcr.io/withlazers/util-containers/iptables
+  pullPolicy: IfNotPresent
+  tag: "1"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources:
+  limits:
+    cpu: 10m
+    memory: 32Mi
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
