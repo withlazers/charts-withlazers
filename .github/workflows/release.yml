@@ -26,6 +26,10 @@ jobs:
         with:
           version: v3.8.1
 
+      - name: Configure Helm
+        run: |
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
         env:
