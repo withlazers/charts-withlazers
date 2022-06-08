@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  keycloak-operator:
+  - apiVersion: v2
+    appVersion: 18.0.0
+    created: "2022-06-08T09:52:50.996776391Z"
+    description: A Helm chart for Kubernetes
+    digest: 37edbf39b4742f844325f6336f6775199c34ce969b107ac1bcbba36e95559540
+    name: keycloak-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
+    version: 0.1.1
+generated: "2022-06-08T09:52:50.996791991Z"
