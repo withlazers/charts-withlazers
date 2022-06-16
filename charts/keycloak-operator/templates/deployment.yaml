@@ -29,7 +29,7 @@ spec:
         - name: keycloak-operator
           env:
             - name: KUBERNETES_NAMESPACE
-              value: {{ .Values.operator.target_namespace | default .Release.Namespace | quote }}
+              value: {{ .Values.operator.targetNamespace | default .Release.Namespace | quote }}
             - name: OPERATOR_KEYCLOAK_IMAGE
               value: "{{ .Values.keycloak.image.registry }}/{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag | default .Chart.AppVersion }}"
           image: "{{ .Values.operator.image.registry }}/{{ .Values.operator.image.repository }}:{{ .Values.operator.image.tag | default .Chart.AppVersion }}"
