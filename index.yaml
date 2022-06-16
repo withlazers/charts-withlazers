@@ -32,4 +32,15 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
     version: 0.1.1
-generated: "2022-06-16T09:52:26.231792152Z"
+  keycloak-operator-legacy:
+  - apiVersion: v2
+    appVersion: 18.0.0
+    created: "2022-06-16T12:08:52.052049097Z"
+    description: A Helm chart for Kubernetes
+    digest: 29fec452bc6208575e6637d118b9917d63abfd22f16efadbb178e260929db5c9
+    name: keycloak-operator-legacy
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-legacy-0.1.3/keycloak-operator-legacy-0.1.3.tgz
+    version: 0.1.3
+generated: "2022-06-16T12:08:52.052073597Z"
