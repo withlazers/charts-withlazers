@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keycloak-operator-legacy.fullname" . }}
+  labels:
+    {{- include "keycloak-operator-legacy.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "keycloak-operator-legacy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "keycloak-operator-legacy.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "keycloak-operator-legacy.serviceAccountName" . }}
+      containers:
+        - name: keycloak-operator
+          # Replace this with the built image name
+          image: "{{ .Values.operator.image.registry }}/{{ .Values.operator.image.repository }}:{{ .Values.operator.image.tag | default .Chart.AppVersion }}"
+          command:
+          - keycloak-operator
+          imagePullPolicy: {{ .Values.operator.image.pullPolicy }}
+          env:
+            - name: WATCH_NAMESPACE
+              value: ''
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "keycloak-operator"
