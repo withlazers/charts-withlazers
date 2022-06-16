@@ -1,16 +1,5 @@
 apiVersion: v1
 entries:
-  keycloak-operator:
-  - apiVersion: v2
-    appVersion: 18.0.0
-    created: "2022-06-08T09:52:50.996776391Z"
-    description: A Helm chart for Kubernetes
-    digest: 37edbf39b4742f844325f6336f6775199c34ce969b107ac1bcbba36e95559540
-    name: keycloak-operator
-    type: application
-    urls:
-    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
-    version: 0.1.1
   ingress-nginx-nodeport:
   - apiVersion: v2
     appVersion: 4.1.3
@@ -22,4 +11,25 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/ingress-nginx-nodeport-4.1.3/ingress-nginx-nodeport-4.1.3.tgz
     version: 4.1.3
-generated: "2022-06-09T09:50:00.996791991Z"
+  keycloak-operator:
+  - apiVersion: v2
+    appVersion: 18.0.0
+    created: "2022-06-16T09:52:26.231778151Z"
+    description: A Helm chart for Kubernetes
+    digest: 8fc852ab47194130f9ce6f7d92cae237aa00883d2465f8ac4ff3baaa0bdc412b
+    name: keycloak-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-0.1.2/keycloak-operator-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 18.0.0
+    created: "2022-06-08T09:52:50.996776391Z"
+    description: A Helm chart for Kubernetes
+    digest: 37edbf39b4742f844325f6336f6775199c34ce969b107ac1bcbba36e95559540
+    name: keycloak-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-0.1.1/keycloak-operator-0.1.1.tgz
+    version: 0.1.1
+generated: "2022-06-16T09:52:26.231792152Z"
