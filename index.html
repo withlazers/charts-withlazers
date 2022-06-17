@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js" referrerpolicy="no-referrer"></script>
+		<title>Helm Charts with lazers!</title>
+	</header>
+	<body>
+		<div></div>
+		<script defer>
+			function e(strings, ...values) {
+				return strings.reduce((acc, cur, i) =>
+					acc + cur + (values[i] || "").replace("<", "&lt;").replace(">", "&gt;"), "");
+			}
+			var r = new XMLHttpRequest();
+			r.open("GET", "index.yaml", true);
+			r.onreadystatechange = function () {
+				if (r.readyState != 4 || r.status != 200) return;
+				var data = jsyaml.load(r.responseText);
+				const target = document.getElementById("target");
+				for (const [name, versions] of Object.entries(data.entries)) {
+					target.innerHTML += e`
+					<tr>
+							<td>${name}</td>
+					</tr>
+					`;
+					for (const version of versions) {
+						target.innerHTML += e`
+						<tr>
+							<td>${version.name}</td>
+							<td>${version.version}</td>
+							<td>${version.appVersion}</td>
+							<td>${version.description}</td>
+						</tr>
+						`;
+					}
+					//target.innerHTML += `<a href="${entry.url}">${entry.title}</a>`;
+				}
+			};
+			r.send();
+		</script>
+		<a href="https://github.com/withlazers/charts-withlazers">github.com/withlazers/charts-withlazers</a>
+		<pre><code>helm repo add withlazers https://charts.withlazers.dev/</code></pre>
+		<table id="target">
+			<tr>
+				<th>Name</th>
+				<th>Version</th>
+				<th>AppVersion</th>
+				<th>Description</th>
+			</tr>
+		</table>
+	</body>
+</html>
+
