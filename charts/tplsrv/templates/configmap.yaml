@@ -1,0 +1,13 @@
+{{- if and (eq .Values.templates.dataSource "configMap") .Values.templates.configMap.create -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tplsrv.configMapName" . }}
+  labels:
+    {{- include "tplsrv.labels" . | nindent 4 }}
+data:
+{{- range $key, $value := .Values.templates.configMap.items }}
+  {{ $key }}.tmpl: |
+    {{- $value | nindent 4 }}
+{{- end }}
+{{- end }}
