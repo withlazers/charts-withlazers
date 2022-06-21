@@ -13,9 +13,9 @@ ports:
   https: 443
 
 image:
-  repository: ghcr.io/withlazers/util-containers/iptables
+  repository: withlazers/iptables
   pullPolicy: IfNotPresent
-  tag: "1"
+  tag: "sha-6da0d3f"
 
 imagePullSecrets: []
 nameOverride: ""
