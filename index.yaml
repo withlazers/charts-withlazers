@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  helmfile-cd:
+  - apiVersion: v2
+    appVersion: sha-bc36cbd
+    created: "2022-06-21T22:04:50.053251694Z"
+    description: Simple Continuous Delivery system based on helmfile
+    digest: 0267d960e7b56164996a0dee5cc7e9e5d578c0464e60cf9e485eea88ab7f7cd6
+    name: helmfile-cd
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/helmfile-cd-0.1.0/helmfile-cd-0.1.0.tgz
+    version: 0.1.0
   ingress-nginx-nodeport:
   - apiVersion: v2
     appVersion: 4.1.4
@@ -79,4 +90,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-21T21:16:50.874194495Z"
+generated: "2022-06-21T22:04:50.053262795Z"
