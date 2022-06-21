@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "helmfile-cd.fullname" . }}
+  labels:
+    {{- include "helmfile-cd.labels" . | nindent 4 }}
+  {{- with .Values.git.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  GIT_REPOSITORY: {{ .Values.git.repository | required "git.repository is not set" | quote }}
+  GIT_DIRECTORY: {{ .Values.git.directory | quote }}
+  GIT_BRANCH: {{ .Values.git.branch | quote }}

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: helmfile-cd
+description: Simple Continuous Delivery system based on helmfile
+
+type: application
+
+version: 0.1.0
+
+appVersion: "sha-bc36cbd"

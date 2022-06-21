@@ -1,0 +1,93 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "helmfile-cd.fullname" . }}
+  labels:
+    {{- include "helmfile-cd.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "helmfile-cd.selectorLabels" . | nindent 12 }}
+        spec:
+          restartPolicy: OnFailure
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "helmfile-cd.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          containers:
+          - name: helmfile-cd
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+            envFrom:
+            - configMapRef:
+                name: {{ include "helmfile-cd.fullname" . }}
+            command:
+            - /bin/sh
+            - -ce
+            - |
+
+              mkdir -p /work
+              cat > /work/askpass <<EOF
+              case "$1" in
+                  Username*) exec cat /auth/username ;;
+                  Password*) exec cat /auth/password ;;
+              esac
+              exit 1
+              EOF
+
+              SSH='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+              if [ -e "/auth/key" ]; then
+                SSH="$SSH -i /auth/key"
+              fi
+
+              export GIT_SSH_COMMAND="$SSH"
+              export GIT_ASKPASS="sh -e /work/askpass"
+              if [ -d /work/repo ]; then
+                git -C /work/repo pull
+              else
+                git clone --depth 1 \
+                  ${GIT_BRANCH:+-b "${GIT_BRANCH}"} \
+                  "$GIT_REPOSITORY" /work/repo
+              fi
+
+              cd "/work/repo/$GIT_DIRECTORY"
+              helmfile sync
+            volumeMounts:
+            - mountPath: /auth
+              name: authentication
+          volumes:
+          - name: authentication
+            secret:
+              secretName: {{ include "helmfile-cd.gitSecretName" . }}
+              defaultMode: 256
+              optional: true
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
