@@ -1,0 +1,9 @@
+{{- $dot := . }}
+{{- range .Values.manifests }}
+{{- $name_default := dict "metadata" (dict "name" (include "manifests.fullname" $dot)) }}
+{{- $label_patch := dict "metadata" (dict "labels" (fromYaml (include "manifests.labels" $dot))) }}
+{{- $manifest := mergeOverwrite $name_default .}}
+{{ $manifest = merge $manifest $label_patch }}
+---
+{{- toYaml $name_default }}
+{{- end }}
