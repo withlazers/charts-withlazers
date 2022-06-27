@@ -68,6 +68,17 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-legacy-0.1.3/keycloak-operator-legacy-0.1.3.tgz
     version: 0.1.3
+  manifests:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-06-27T10:35:32.209235185Z"
+    description: A Helm chart for Kubernetes
+    digest: 565527509ca784fed73fa90e808bdd6ca320acd0fbfc0f1b9b951ff2cb098ba9
+    name: manifests
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/manifests-0.1.0/manifests-0.1.0.tgz
+    version: 0.1.0
   secret-sync-operator:
   - apiVersion: v2
     appVersion: 0.0.1
@@ -100,4 +111,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-27T09:27:13.683153971Z"
+generated: "2022-06-27T10:35:32.209247785Z"
