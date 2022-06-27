@@ -81,6 +81,16 @@ entries:
     version: 0.0.1
   tplsrv:
   - apiVersion: v2
+    appVersion: v0.1.1
+    created: "2022-06-27T09:27:13.683136171Z"
+    description: tplsrv is a http powered templating service
+    digest: 5f5e526e35545c6addd0e24b4b3b113e33405e4ef4bb51e234e0ebc1c91b99a2
+    name: tplsrv
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.1/tplsrv-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2022-06-21T21:16:50.874182595Z"
     description: tplsrv is a http powered templating service
@@ -90,4 +100,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-21T22:04:50.053262795Z"
+generated: "2022-06-27T09:27:13.683153971Z"
