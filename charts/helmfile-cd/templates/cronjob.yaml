@@ -47,9 +47,14 @@ spec:
               name: authentication
             - mountPath: /work
               name: work
+            - mountPath: /tmp
+              name: tmp
             - mountPath: /home/helmfile
               name: home
           volumes:
+          - name: tmp
+            emptyDir:
+              medium: Memory
           - name: home
             emptyDir: {}
           - name: authentication
