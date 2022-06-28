@@ -24,10 +24,23 @@ resources:
     cpu: 100m
     memory: 512Mi
 
+podSecurityContext:
+  fsGroup: 1000
+
 securityContext:
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
   capabilities:
     drop:
     - ALL
+
+persistence:
+  enabled: false
+  annotations: {}
+  # storageClass: "-"
+  # existingClaim: 
+  accessMode: ReadWriteOnce
+  size: 2Gi
 
 git:
   annotations: {}
@@ -35,7 +48,7 @@ git:
   repository: ~
   directory: ./helmfile
   authentication:
-    secretRef: ~
+    existingSecret: ~
     key: ~
     username: ~
     password: ~
@@ -43,3 +56,4 @@ git:
 
 cronjob:
   schedule: "*/5 * * * *"
+  deadline: 300

@@ -65,5 +65,12 @@ Create the name of the service account to use
 Create the name of ssh secret to use
 */}}
 {{- define "helmfile-cd.gitSecretName" -}}
-{{- default (include "helmfile-cd.fullname" .) .Values.git.authentication.secretRef }}
+{{- .Values.git.authentication.existingSecret | default (include "helmfile-cd.fullname" .) }}
+{{- end }}
+
+{{/*
+Create the name of pvc to use
+*/}}
+{{- define "helmfile-cd.pvcName" -}}
+{{- .Values.persistence.existingClaim | default (printf "%s-cache" (include "helmfile-cd.fullname" .)) }}
 {{- end }}

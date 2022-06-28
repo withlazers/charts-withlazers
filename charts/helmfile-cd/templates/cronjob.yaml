@@ -9,6 +9,9 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      {{- with .Values.cronjob.deadline }}
+      activeDeadlineSeconds: {{ . }}
+      {{- end }}
       template:
         metadata:
           {{- with .Values.podAnnotations }}
@@ -39,46 +42,28 @@ spec:
             envFrom:
             - configMapRef:
                 name: {{ include "helmfile-cd.fullname" . }}
-            command:
-            - /bin/sh
-            - -ce
-            - |
-
-              mkdir -p /work
-              cat > /work/askpass <<EOF
-              case "$1" in
-                  Username*) exec cat /auth/username ;;
-                  Password*) exec cat /auth/password ;;
-              esac
-              exit 1
-              EOF
-
-              SSH='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-              if [ -e "/auth/key" ]; then
-                SSH="$SSH -i /auth/key"
-              fi
-
-              export GIT_SSH_COMMAND="$SSH"
-              export GIT_ASKPASS="sh -e /work/askpass"
-              if [ -d /work/repo ]; then
-                git -C /work/repo pull
-              else
-                git clone --depth 1 \
-                  ${GIT_BRANCH:+-b "${GIT_BRANCH}"} \
-                  "$GIT_REPOSITORY" /work/repo
-              fi
-
-              cd "/work/repo/$GIT_DIRECTORY"
-              helmfile sync
             volumeMounts:
             - mountPath: /auth
               name: authentication
+            - mountPath: /work
+              name: work
+            - mountPath: /home/helmfile
+              name: home
           volumes:
+          - name: home
+            emptyDir: {}
           - name: authentication
             secret:
               secretName: {{ include "helmfile-cd.gitSecretName" . }}
               defaultMode: 256
               optional: true
+          - name: work
+            {{- if .Values.persistence.enabled }}
+            persistentVolumeClaim:
+              claimName: {{ include "helmfile-cd.pvcName" . }}
+            {{- else }}
+            emptyDir: {}
+            {{- end }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}

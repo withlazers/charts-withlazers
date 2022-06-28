@@ -4,6 +4,6 @@ description: Simple Continuous Delivery system based on helmfile
 
 type: application
 
-version: 0.1.0
+version: 0.1.1
 
-appVersion: "sha-bc36cbd"
+appVersion: "v0.1.1"
