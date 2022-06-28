@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   helmfile-cd:
   - apiVersion: v2
+    appVersion: v0.1.3
+    created: "2022-06-28T08:35:40.700339427Z"
+    description: Simple Continuous Delivery system based on helmfile
+    digest: de3191f63c36f5f872a473ffa7d33063431abfe7e8730146511799f5d568f619
+    name: helmfile-cd
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/helmfile-cd-0.1.3/helmfile-cd-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
     appVersion: v0.1.2
     created: "2022-06-28T08:09:08.147032662Z"
     description: Simple Continuous Delivery system based on helmfile
@@ -131,4 +141,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-28T08:09:08.147093963Z"
+generated: "2022-06-28T08:35:40.700357427Z"
