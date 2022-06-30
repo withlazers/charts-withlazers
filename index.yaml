@@ -121,6 +121,16 @@ entries:
     version: 0.1.0
   secret-sync-operator:
   - apiVersion: v2
+    appVersion: 0.0.2
+    created: "2022-06-30T19:13:59.803749365Z"
+    description: A Helm chart for Kubernetes
+    digest: d9da8ba862edf38eb1b1bb75e81de7609fcdedae37c947665653bf6acbff6724
+    name: secret-sync-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/secret-sync-operator-0.0.2/secret-sync-operator-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
     appVersion: 0.0.1
     created: "2022-06-17T17:31:23.925712485Z"
     description: A Helm chart for Kubernetes
@@ -162,4 +172,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-30T18:49:59.479953286Z"
+generated: "2022-06-30T19:13:59.803773266Z"
