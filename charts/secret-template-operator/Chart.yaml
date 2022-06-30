@@ -1,0 +1,6 @@
+apiVersion: v2
+name: secret-template-operator
+description: An Operator for creating secrets based on tempfiles
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
