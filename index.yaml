@@ -130,6 +130,17 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/secret-sync-operator-0.0.1/secret-sync-operator-0.0.1.tgz
     version: 0.0.1
+  secret-template-operator:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-06-30T18:49:59.479823288Z"
+    description: An Operator for creating secrets based on tempfiles
+    digest: 5b3a10bb425db0c948ca336fee55f37745d6289829e21862b38d1fb234bffac0
+    name: secret-template-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/secret-template-operator-0.0.1/secret-template-operator-0.0.1.tgz
+    version: 0.0.1
   tplsrv:
   - apiVersion: v2
     appVersion: v0.1.1
@@ -151,4 +162,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2022-06-28T09:11:15.962321074Z"
+generated: "2022-06-30T18:49:59.479953286Z"
