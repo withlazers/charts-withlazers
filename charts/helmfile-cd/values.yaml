@@ -19,7 +19,6 @@ serviceAccount:
 resources:
   limits:
     cpu: 100m
-    memory: 512Mi
   requests:
     cpu: 100m
     memory: 512Mi
@@ -56,4 +55,4 @@ git:
 
 cronjob:
   schedule: "*/5 * * * *"
-  deadline: 300
+  #deadline: 300

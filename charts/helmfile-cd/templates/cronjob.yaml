@@ -39,9 +39,41 @@ spec:
               {{- toYaml .Values.resources | nindent 14 }}
             securityContext:
               {{- toYaml .Values.securityContext | nindent 14 }}
-            envFrom:
-            - configMapRef:
-                name: {{ include "helmfile-cd.fullname" . }}
+            env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
+            ## Configuration
+            - name: CONFIG_GIT_REPOSITORY
+              valueFrom:
+                configMapKeyRef:
+                  key: GIT_REPOSITORY
+                  name: {{ include "helmfile-cd.fullname" . }}
+            - name: CONFIG_GIT_DIRECTORY
+              valueFrom:
+                configMapKeyRef:
+                  key: GIT_DIRECTORY
+                  name: {{ include "helmfile-cd.fullname" . }}
+                  optional: true
+            - name: CONFIG_GIT_BRANCH
+              valueFrom:
+                configMapKeyRef:
+                  key: GIT_BRANCH
+                  name: {{ include "helmfile-cd.fullname" . }}
+                  optional: true
+
+            ## State
+            - name: STATE_GIT_REV
+              valueFrom:
+                configMapKeyRef:
+                  key: GIT_REV
+                  name: {{ include "helmfile-cd.fullname" . }}-state
+                  optional: true
+            - name: STATE_NAME
+              value: {{ include "helmfile-cd.fullname" . }}-state
+
             volumeMounts:
             - mountPath: /auth
               name: authentication
