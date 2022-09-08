@@ -16,7 +16,7 @@ keycloak:
     registry: quay.io/keycloak
     repository: keycloak
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "18.0.0-legacy"
 
 
 imagePullSecrets: []
