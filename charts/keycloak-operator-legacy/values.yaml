@@ -10,13 +10,13 @@ operator:
     registry: quay.io/keycloak
     repository: keycloak-operator
     pullPolicy: IfNotPresent
-    tag: "18.0.0-legacy"
+    tag: ""
 keycloak:
   image:
     registry: quay.io/keycloak
     repository: keycloak
     pullPolicy: IfNotPresent
-    tag: "18.0.0-legacy"
+    tag: ""
 
 
 imagePullSecrets: []
