@@ -37,3 +37,5 @@ spec:
               value: "keycloak-operator"
             - name: RELATED_IMAGE_KEYCLOAK
               value: "{{ .Values.keycloak.image.registry }}/{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag | default .Chart.AppVersion }}"
+            - name: RELATED_IMAGE_POSTGRESQL
+              value: "{{ .Values.postgres.image.registry }}/{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag | default .Chart.AppVersion }}"

@@ -17,7 +17,12 @@ keycloak:
     repository: keycloak
     pullPolicy: IfNotPresent
     tag: ""
-
+postgres:
+  image:
+    registry: quay.io/centos7
+    repository: postgresql-10-centos7
+    pullPolicy: IfNotPresent
+    tag: "20230120"
 
 imagePullSecrets: []
 nameOverride: ""
