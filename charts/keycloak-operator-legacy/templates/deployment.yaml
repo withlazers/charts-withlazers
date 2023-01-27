@@ -1,3 +1,4 @@
+{{- $dot := . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +36,11 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
               value: "keycloak-operator"
+            {{- with .Values.keycloak.image }}
             - name: RELATED_IMAGE_KEYCLOAK
-              value: "{{ .Values.keycloak.image.registry }}/{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag | default .Chart.AppVersion }}"
+              value: "{{ .registry }}/{{ .repository }}:{{ .tag | default $dot.Chart.AppVersion }}"
+            {{- end }}
+            {{- with .Values.postgres.image }}
             - name: RELATED_IMAGE_POSTGRESQL
-              value: "{{ .Values.postgres.image.registry }}/{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag | default .Chart.AppVersion }}"
+              value: "{{ .registry }}/{{ .repository }}:{{ .tag | default $dot.Chart.AppVersion }}"
+            {{- end }}
