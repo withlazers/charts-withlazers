@@ -119,6 +119,16 @@ entries:
     version: 0.1.1
   keycloak-operator-legacy:
   - apiVersion: v2
+    appVersion: 19.0.3-legacy
+    created: "2023-01-27T11:26:01.89287729Z"
+    description: A Helm chart for Kubernetes
+    digest: 2b064f121e5b1d69d2374c14bb957d6919c28f3a34ecb471c194da4783bdd968
+    name: keycloak-operator-legacy
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/keycloak-operator-legacy-0.1.7/keycloak-operator-legacy-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
     appVersion: 18.0.0-legacy
     created: "2023-01-23T10:57:53.267905415Z"
     description: A Helm chart for Kubernetes
@@ -222,4 +232,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-23T10:57:53.267962815Z"
+generated: "2023-01-27T11:26:01.892968291Z"
