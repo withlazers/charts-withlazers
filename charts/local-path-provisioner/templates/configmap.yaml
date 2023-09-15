@@ -1,0 +1,33 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "local-path-provisioner.fullname" . }}
+data:
+  config.json: |-
+    {{ toPrettyJson .Values.app.config | nindent 4 }}
+  setup: |-
+    {{ .Values.app.setup | nindent 4 }}
+  teardown: |-
+    {{ .Values.app.teardown | nindent 4 }}
+  helperPod.yaml: |-
+    {{ if .Values.helper.overwritePodDefinition -}}
+    {{ .Values.helper.podDefinition | nindent 4 }}
+    {{- else -}}
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: {{ include "local-path-provisioner.fullname" . }}-helper
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.helper.podSecurityContext | nindent 8 }}
+      containers:
+      - name: helper-pod
+        image: "{{ .Values.helper.image.repository }}:{{ .Values.helper.image.tag }}"
+        imagePullPolicy: {{ .Values.helper.image.pullPolicy }}
+        resources:
+          {{- toYaml .Values.helper.resources | nindent 12 }}
+    {{- end }}
