@@ -29,7 +29,7 @@ spec:
     name: v1
     schema:
       openAPIV3Schema:
-        description: Auto-generated derived type for KeycloakInstanceSpec via `CustomResource`
+        description: This resource makes a Keycloak instance known to the operator
         properties:
           spec:
             properties:
@@ -48,12 +48,15 @@ spec:
                 type: object
               credentials:
                 properties:
+                  create:
+                    nullable: true
+                    type: boolean
                   passwordKey:
                     nullable: true
                     type: string
                   secretName:
                     type: string
-                  userKey:
+                  usernameKey:
                     nullable: true
                     type: string
                 required:
