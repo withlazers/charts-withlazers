@@ -1,5 +1,21 @@
 apiVersion: v1
 entries:
+  auto-secret-operator:
+  - apiVersion: v2
+    appVersion: v0.0.1
+    created: "2025-02-08T22:10:24.705601551Z"
+    description: 'The helm-chart for the auto-secret-operator '
+    digest: d6eaad3de9394ab249b3aa95bb9e4e2fbe2adf0fc68910eb9d65cb6a49c8da84
+    home: https://github.com/withlazers/auto-secret-operator
+    maintainers:
+    - email: mail@eboland.de
+      name: Enno Boland
+      url: https://github.com/Gottox
+    name: auto-secret-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/auto-secret-operator-0.0.1/auto-secret-operator-0.0.1.tgz
+    version: 0.0.1
   helmfile-cd:
   - apiVersion: v2
     appVersion: v0.1.6
@@ -420,4 +436,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-04T19:51:53.649201609Z"
+generated: "2025-02-08T22:10:24.705652566Z"
