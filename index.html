@@ -3,9 +3,13 @@
 	<header>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js" referrerpolicy="no-referrer"></script>
 		<title>Helm Charts with lazers!</title>
+		<style>
+			table, th, td, th {
+				border: 1px solid black;
+			}
+		</style>
 	</header>
 	<body>
-		<div></div>
 		<script defer>
 			function e(strings, ...values) {
 				return strings.reduce((acc, cur, i) =>
@@ -20,13 +24,12 @@
 				for (const [name, versions] of Object.entries(data.entries)) {
 					target.innerHTML += e`
 					<tr>
-							<td>${name}</td>
+							<th colspan=4 align=left>${name}</th>
 					</tr>
 					`;
 					for (const version of versions) {
 						target.innerHTML += e`
 						<tr>
-							<td>${version.name}</td>
 							<td>${version.version}</td>
 							<td>${version.appVersion}</td>
 							<td>${version.description}</td>
@@ -41,8 +44,7 @@
 		<a href="https://github.com/withlazers/charts-withlazers">github.com/withlazers/charts-withlazers</a>
 		<pre><code>helm repo add withlazers https://charts.withlazers.dev/</code></pre>
 		<table id="target">
-			<tr>
-				<th>Name</th>
+			<tr style="position: sticky; top: 0; background: white;">
 				<th>Version</th>
 				<th>AppVersion</th>
 				<th>Description</th>
