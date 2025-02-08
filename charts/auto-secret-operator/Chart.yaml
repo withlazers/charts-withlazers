@@ -1,0 +1,12 @@
+apiVersion: v2
+name: auto-secret-operator
+description: |
+  The helm-chart for the auto-secret-operator
+type: application
+home: https://github.com/withlazers/auto-secret-operator
+maintainers:
+  - name: Enno Boland
+    email: mail@eboland.de
+    url: https://github.com/Gottox
+version: 0.0.1
+appVersion: "v0.0.1"
