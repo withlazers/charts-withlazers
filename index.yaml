@@ -208,6 +208,22 @@ entries:
     version: 0.1.0
   rustcloak-operator:
   - apiVersion: v2
+    appVersion: v0.1.12
+    created: "2025-02-26T18:13:29.949729104Z"
+    description: 'The helm-chart for the rustcloak-operator '
+    digest: 8934ed1b2679cefd126356645b844089e0f1cd758f21c7737d1119d0450ffc1a
+    home: https://rustcloak.withlazers.dev
+    icon: https://github.com/withlazers/rustcloak-operator/raw/refs/heads/main/icon.svg
+    maintainers:
+    - email: mail@eboland.de
+      name: Enno Boland
+      url: https://github.com/Gottox
+    name: rustcloak-operator
+    type: application
+    urls:
+    - https://github.com/withlazers/charts-withlazers/releases/download/rustcloak-operator-0.1.12/rustcloak-operator-0.1.12.tgz
+    version: 0.1.12
+  - apiVersion: v2
     appVersion: v0.1.11
     created: "2025-02-26T13:18:53.519170878Z"
     description: 'The helm-chart for the rustcloak-operator '
@@ -452,4 +468,4 @@ entries:
     urls:
     - https://github.com/withlazers/charts-withlazers/releases/download/tplsrv-0.1.0/tplsrv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-26T13:18:53.519257751Z"
+generated: "2025-02-26T18:13:29.949870019Z"
