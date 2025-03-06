@@ -28,21 +28,44 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define an Authentication Flow within a [KeycloakRealm](./keycloakrealm.md)
         properties:
           spec:
+            anyOf:
+            - required:
+              - realmRef
+            - required:
+              - clusterRealmRef
             description: the KeycloakAuthenticationFlow resource
             properties:
+              clusterRealmRef:
+                description: The name of the cluster realm to which this object belongs to
+                type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               definition:
+                description: |-
+                  AuthenticationFlowRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "alias": { "type": "string" }, "authenticationExecutions": { "type": "array", "items": { "$ref": "#/$defs/AuthenticationExecutionExportRepresentation" } }, "builtIn": { "type": "boolean" }, "description": { "type": "string" }, "id": { "type": "string" }, "providerId": { "type": "string" }, "topLevel": { "type": "boolean" } }, "additionalProperties": false } ``` </details>
                 properties:
                   alias:
                     nullable: true
                     type: string
                   authenticationExecutions:
                     items:
+                      description: |-
+                        AuthenticationExecutionExportRepresentation
+
+                        <details><summary>JSON schema</summary>
+
+                        ```json { "type": "object", "properties": { "authenticator": { "type": "string" }, "authenticatorConfig": { "type": "string" }, "authenticatorFlow": { "type": "boolean" }, "autheticatorFlow": { "type": "boolean" }, "flowAlias": { "type": "string" }, "priority": { "type": "integer", "format": "int32", "maximum": 2147483647.0, "minimum": -2147483648.0 }, "requirement": { "type": "string", "enum": [ "ALTERNATIVE", "CONDITIONAL", "DISABLED", "REQUIRED" ] }, "userSetupAllowed": { "type": "boolean" } }, "additionalProperties": false } ``` </details>
                       properties:
                         authenticator:
                           nullable: true
@@ -64,13 +87,23 @@ spec:
                           nullable: true
                           type: integer
                         requirement:
+                          description: |-
+                            AuthenticationExecutionExportRepresentationRequirement
+
+                            <details><summary>JSON schema</summary>
+
+                            ```json { "type": "string", "enum": [ "ALTERNATIVE", "CONDITIONAL", "DISABLED", "REQUIRED" ] } ``` </details>
+                          enum:
+                          - ALTERNATIVE
+                          - CONDITIONAL
+                          - DISABLED
+                          - REQUIRED
                           nullable: true
                           type: string
                         userSetupAllowed:
                           nullable: true
                           type: boolean
                       type: object
-                    nullable: true
                     type: array
                   builtIn:
                     nullable: true
@@ -175,11 +208,13 @@ spec:
                 description: Defines additional values that can be loaded from secrets or configmaps. Field selectors are not supported. For more informations see [the patches documentation](../configuration/patches.md).
                 type: object
               realmRef:
-                description: the name of the kubernetes object that created the realm.
+                description: The name of the realm to which this object belongs to
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
             required:
             - definition
-            - realmRef
             type: object
           status:
             nullable: true
@@ -188,11 +223,6 @@ spec:
                 items:
                   properties:
                     lastTransitionTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
-                    lastUpdateTime:
                       description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
                       format: date-time
                       nullable: true
@@ -211,14 +241,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string

@@ -1,19 +1,19 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: keycloakrealms.rustcloak.k8s.eboland.de
+  name: clusterkeycloakrealms.rustcloak.k8s.eboland.de
 spec:
   group: rustcloak.k8s.eboland.de
   names:
     categories:
     - keycloak
     - all
-    kind: KeycloakRealm
-    plural: keycloakrealms
+    kind: ClusterKeycloakRealm
+    plural: clusterkeycloakrealms
     shortNames:
-    - kcrm
-    singular: keycloakrealm
-  scope: Namespaced
+    - ckcrm
+    singular: clusterkeycloakrealm
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - description: true if the realm is ready
@@ -2658,7 +2658,7 @@ spec:
             type: object
         required:
         - spec
-        title: KeycloakRealm
+        title: ClusterKeycloakRealm
         type: object
     served: true
     storage: true

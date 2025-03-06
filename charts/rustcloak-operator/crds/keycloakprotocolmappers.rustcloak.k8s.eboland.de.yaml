@@ -28,7 +28,7 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define a Protocol Mapper within either a [KeycloakClient](./keycloakclient.md) or a [KeycloakClientScope](./keycloakclientscope.md)
@@ -43,14 +43,25 @@ spec:
             properties:
               clientRef:
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               clientScopeRef:
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               definition:
+                description: |-
+                  ProtocolMapperRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "config": { "type": "object", "additionalProperties": { "type": "string" } }, "consentRequired": { "type": "boolean" }, "consentText": { "type": "string" }, "id": { "type": "string" }, "name": { "type": "string" }, "protocol": { "type": "string", "enum": [ "openid-connect", "saml" ] }, "protocolMapper": { "type": "string" } }, "additionalProperties": false } ``` </details>
                 properties:
                   config:
                     additionalProperties:
                       type: string
-                    nullable: true
                     type: object
                   consentRequired:
                     nullable: true
@@ -68,6 +79,15 @@ spec:
                     nullable: true
                     type: string
                   protocol:
+                    description: |-
+                      ProtocolMapperRepresentationProtocol
+
+                      <details><summary>JSON schema</summary>
+
+                      ```json { "type": "string", "enum": [ "openid-connect", "saml" ] } ``` </details>
+                    enum:
+                    - openid-connect
+                    - saml
                     nullable: true
                     type: string
                   protocolMapper:
@@ -171,11 +191,6 @@ spec:
                       format: date-time
                       nullable: true
                       type: string
-                    lastUpdateTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
                     message:
                       nullable: true
                       type: string
@@ -190,14 +205,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string

@@ -28,34 +28,51 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define a Group within a [KeycloakRealm](./keycloakrealm.md)
         properties:
           spec:
+            anyOf:
+            - anyOf:
+              - required:
+                - realmRef
+              - required:
+                - clusterRealmRef
+            - required:
+              - parentGroupRef
             description: the KeycloakGroup resource
             properties:
+              clusterRealmRef:
+                description: The name of the cluster realm to which this object belongs to
+                type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               definition:
+                description: |-
+                  GroupRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "access": { "type": "object", "additionalProperties": { "type": "boolean" } }, "attributes": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }, "clientRoles": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }, "id": { "type": "string" }, "name": { "type": "string" }, "parentId": { "type": "string" }, "path": { "type": "string" }, "realmRoles": { "type": "array", "items": { "type": "string" } }, "subGroupCount": { "type": "integer", "format": "int64", "maximum": 9.223372036854776e18, "minimum": -9.223372036854776e18 }, "subGroups": { "type": "array", "items": { "$ref": "#/$defs/GroupRepresentation" } } }, "additionalProperties": false } ``` </details>
                 properties:
                   access:
                     additionalProperties:
                       type: boolean
-                    nullable: true
                     type: object
                   attributes:
                     additionalProperties:
                       items:
                         type: string
                       type: array
-                    nullable: true
                     type: object
                   clientRoles:
                     additionalProperties:
                       items:
                         type: string
                       type: array
-                    nullable: true
                     type: object
                   id:
                     nullable: true
@@ -75,7 +92,6 @@ spec:
                   realmRoles:
                     items:
                       type: string
-                    nullable: true
                     type: array
                   subGroupCount:
                     format: int64
@@ -89,6 +105,11 @@ spec:
                 description: Options for the request to the Keycloak Admin API.
                 nullable: true
                 type: object
+              parentGroupRef:
+                type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               patchFrom:
                 additionalProperties:
                   description: EnvVarSource represents a source for the value of an EnvVar.
@@ -166,11 +187,13 @@ spec:
                 description: Defines additional values that can be loaded from secrets or configmaps. Field selectors are not supported. For more informations see [the patches documentation](../configuration/patches.md).
                 type: object
               realmRef:
-                description: the name of the kubernetes object that created the realm.
+                description: The name of the realm to which this object belongs to
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
             required:
             - definition
-            - realmRef
             type: object
           status:
             nullable: true
@@ -179,11 +202,6 @@ spec:
                 items:
                   properties:
                     lastTransitionTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
-                    lastUpdateTime:
                       description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
                       format: date-time
                       nullable: true
@@ -202,14 +220,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string

@@ -11,7 +11,7 @@ spec:
     kind: KeycloakClientScope
     plural: keycloakclientscopes
     shortNames:
-    - kcss
+    - kccs
     singular: keycloakclientscope
   scope: Namespaced
   versions:
@@ -28,20 +28,36 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define a Scope within a [KeycloakClient](./keycloakclient.md)
         properties:
           spec:
+            anyOf:
+            - required:
+              - realmRef
+            - required:
+              - clusterRealmRef
             description: the KeycloakClientScope resource
             properties:
+              clusterRealmRef:
+                description: The name of the cluster realm to which this object belongs to
+                type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               definition:
+                description: |-
+                  ClientScopeRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "attributes": { "type": "object", "additionalProperties": { "type": "string" } }, "description": { "type": "string" }, "id": { "type": "string" }, "name": { "type": "string" }, "protocol": { "type": "string", "enum": [ "openid-connect", "saml" ] }, "protocolMappers": { "type": "array", "items": { "$ref": "#/$defs/ProtocolMapperRepresentation" } } }, "additionalProperties": false } ``` </details>
                 properties:
                   attributes:
                     additionalProperties:
                       type: string
-                    nullable: true
                     type: object
                   description:
                     nullable: true
@@ -56,15 +72,29 @@ spec:
                     nullable: true
                     type: string
                   protocol:
+                    description: |-
+                      ClientScopeRepresentationProtocol
+
+                      <details><summary>JSON schema</summary>
+
+                      ```json { "type": "string", "enum": [ "openid-connect", "saml" ] } ``` </details>
+                    enum:
+                    - openid-connect
+                    - saml
                     nullable: true
                     type: string
                   protocolMappers:
                     items:
+                      description: |-
+                        ProtocolMapperRepresentation
+
+                        <details><summary>JSON schema</summary>
+
+                        ```json { "type": "object", "properties": { "config": { "type": "object", "additionalProperties": { "type": "string" } }, "consentRequired": { "type": "boolean" }, "consentText": { "type": "string" }, "id": { "type": "string" }, "name": { "type": "string" }, "protocol": { "type": "string", "enum": [ "openid-connect", "saml" ] }, "protocolMapper": { "type": "string" } }, "additionalProperties": false } ``` </details>
                       properties:
                         config:
                           additionalProperties:
                             type: string
-                          nullable: true
                           type: object
                         consentRequired:
                           nullable: true
@@ -79,13 +109,21 @@ spec:
                           nullable: true
                           type: string
                         protocol:
+                          description: |-
+                            ProtocolMapperRepresentationProtocol
+
+                            <details><summary>JSON schema</summary>
+
+                            ```json { "type": "string", "enum": [ "openid-connect", "saml" ] } ``` </details>
+                          enum:
+                          - openid-connect
+                          - saml
                           nullable: true
                           type: string
                         protocolMapper:
                           nullable: true
                           type: string
                       type: object
-                    nullable: true
                     type: array
                 type: object
                 x-kubernetes-validations:
@@ -175,11 +213,13 @@ spec:
                 description: Defines additional values that can be loaded from secrets or configmaps. Field selectors are not supported. For more informations see [the patches documentation](../configuration/patches.md).
                 type: object
               realmRef:
-                description: the name of the kubernetes object that created the realm.
+                description: The name of the realm to which this object belongs to
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
             required:
             - definition
-            - realmRef
             type: object
           status:
             nullable: true
@@ -188,11 +228,6 @@ spec:
                 items:
                   properties:
                     lastTransitionTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
-                    lastUpdateTime:
                       description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
                       format: date-time
                       nullable: true
@@ -211,14 +246,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string

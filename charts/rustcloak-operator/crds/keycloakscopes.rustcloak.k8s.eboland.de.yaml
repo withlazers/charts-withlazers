@@ -28,7 +28,7 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define a Scope within a [KeyclaokClient](./keycloakclient.md)
@@ -37,9 +37,17 @@ spec:
             description: the KeycloakScope resource
             properties:
               clientRef:
-                description: the name of the kubernetes object that created the client.
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               definition:
+                description: |-
+                  ScopeRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "displayName": { "type": "string" }, "iconUri": { "type": "string" }, "id": { "type": "string" }, "name": { "type": "string" }, "policies": { "type": "array", "items": { "$ref": "#/$defs/PolicyRepresentation" } }, "resources": { "type": "array", "items": { "$ref": "#/$defs/ResourceRepresentation" } } }, "additionalProperties": false } ``` </details>
                 properties:
                   displayName:
                     nullable: true
@@ -58,13 +66,24 @@ spec:
                     type: string
                   policies:
                     items:
+                      description: |-
+                        PolicyRepresentation
+
+                        <details><summary>JSON schema</summary>
+
+                        ```json { "type": "object", "properties": { "config": { "type": "object", "additionalProperties": { "type": "string" } }, "decisionStrategy": { "$ref": "#/$defs/DecisionStrategy" }, "description": { "type": "string" }, "id": { "type": "string" }, "logic": { "$ref": "#/$defs/Logic" }, "name": { "type": "string" }, "owner": { "type": "string" }, "policies": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }, "resourceType": { "type": "string" }, "resources": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }, "resourcesData": { "type": "array", "items": { "$ref": "#/$defs/ResourceRepresentation" }, "uniqueItems": true }, "scopes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }, "scopesData": { "type": "array", "items": { "$ref": "#/$defs/ScopeRepresentation" }, "uniqueItems": true }, "type": { "type": "string" } }, "additionalProperties": false } ``` </details>
                       properties:
                         config:
                           additionalProperties:
                             type: string
-                          nullable: true
                           type: object
                         decisionStrategy:
+                          description: |-
+                            DecisionStrategy
+
+                            <details><summary>JSON schema</summary>
+
+                            ```json { "type": "string", "enum": [ "AFFIRMATIVE", "UNANIMOUS", "CONSENSUS" ] } ``` </details>
                           enum:
                           - AFFIRMATIVE
                           - UNANIMOUS
@@ -78,6 +97,12 @@ spec:
                           nullable: true
                           type: string
                         logic:
+                          description: |-
+                            Logic
+
+                            <details><summary>JSON schema</summary>
+
+                            ```json { "type": "string", "enum": [ "POSITIVE", "NEGATIVE" ] } ``` </details>
                           enum:
                           - POSITIVE
                           - NEGATIVE
@@ -104,6 +129,12 @@ spec:
                           type: array
                         resourcesData:
                           items:
+                            description: |-
+                              ResourceRepresentation
+
+                              <details><summary>JSON schema</summary>
+
+                              ```json { "type": "object", "properties": { "_id": { "type": "string" }, "attributes": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }, "displayName": { "type": "string" }, "icon_uri": { "type": "string" }, "name": { "type": "string" }, "owner": { "type": "object", "allOf": [ { "$ref": "#/$defs/ResourceOwnerRepresentation" } ] }, "ownerManagedAccess": { "type": "boolean" }, "scopes": { "type": "array", "items": { "$ref": "#/$defs/ScopeRepresentation" }, "uniqueItems": true }, "scopesUma": { "type": "array", "items": { "$ref": "#/$defs/ScopeRepresentation" }, "uniqueItems": true }, "type": { "type": "string" }, "uri": { "type": "string" }, "uris": { "type": "array", "items": { "type": "string" }, "uniqueItems": true } }, "additionalProperties": false } ``` </details>
                             properties:
                               _id:
                                 nullable: true
@@ -113,7 +144,6 @@ spec:
                                   items:
                                     type: string
                                   type: array
-                                nullable: true
                                 type: object
                               displayName:
                                 nullable: true
@@ -125,6 +155,12 @@ spec:
                                 nullable: true
                                 type: string
                               owner:
+                                description: |-
+                                  ResourceOwnerRepresentation
+
+                                  <details><summary>JSON schema</summary>
+
+                                  ```json { "type": "object", "properties": { "id": { "type": "string" }, "name": { "type": "string" } }, "additionalProperties": false } ``` </details>
                                 nullable: true
                                 properties:
                                   id:
@@ -162,10 +198,15 @@ spec:
                           type: string
                       type: object
                       x-kubernetes-preserve-unknown-fields: true
-                    nullable: true
                     type: array
                   resources:
                     items:
+                      description: |-
+                        ResourceRepresentation
+
+                        <details><summary>JSON schema</summary>
+
+                        ```json { "type": "object", "properties": { "_id": { "type": "string" }, "attributes": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }, "displayName": { "type": "string" }, "icon_uri": { "type": "string" }, "name": { "type": "string" }, "owner": { "type": "object", "allOf": [ { "$ref": "#/$defs/ResourceOwnerRepresentation" } ] }, "ownerManagedAccess": { "type": "boolean" }, "scopes": { "type": "array", "items": { "$ref": "#/$defs/ScopeRepresentation" }, "uniqueItems": true }, "scopesUma": { "type": "array", "items": { "$ref": "#/$defs/ScopeRepresentation" }, "uniqueItems": true }, "type": { "type": "string" }, "uri": { "type": "string" }, "uris": { "type": "array", "items": { "type": "string" }, "uniqueItems": true } }, "additionalProperties": false } ``` </details>
                       properties:
                         _id:
                           nullable: true
@@ -175,7 +216,6 @@ spec:
                             items:
                               type: string
                             type: array
-                          nullable: true
                           type: object
                         displayName:
                           nullable: true
@@ -187,6 +227,12 @@ spec:
                           nullable: true
                           type: string
                         owner:
+                          description: |-
+                            ResourceOwnerRepresentation
+
+                            <details><summary>JSON schema</summary>
+
+                            ```json { "type": "object", "properties": { "id": { "type": "string" }, "name": { "type": "string" } }, "additionalProperties": false } ``` </details>
                           nullable: true
                           properties:
                             id:
@@ -212,7 +258,6 @@ spec:
                           type: array
                       type: object
                       x-kubernetes-preserve-unknown-fields: true
-                    nullable: true
                     type: array
                 type: object
                 x-kubernetes-validations:
@@ -313,11 +358,6 @@ spec:
                       format: date-time
                       nullable: true
                       type: string
-                    lastUpdateTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
                     message:
                       nullable: true
                       type: string
@@ -332,14 +372,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string

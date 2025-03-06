@@ -28,7 +28,7 @@ spec:
       jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    name: v1
+    name: v1beta1
     schema:
       openAPIV3Schema:
         description: resource to define a identity provider mapper within a [KeyclaokIdentityProvider](./keycloakidentityprovider.md)
@@ -37,11 +37,52 @@ spec:
             description: the KeycloakIdentityProviderMapper resource
             properties:
               definition:
+                description: |-
+                  IdentityProviderMapperRepresentation
+
+                  <details><summary>JSON schema</summary>
+
+                  ```json { "type": "object", "properties": { "config": { "type": "object", "properties": { "attribute.friendly.name": { "title": "Friendly name", "description": "Friendly name of attribute to search for in assertion. You can leave this blank and specify a name instead.", "type": "string" }, "attribute.name.format": { "type": "string", "enum": [ "ATTRIBUTE_FORMAT_BASIC", "ATTRIBUTE_FORMAT_URI", "ATTRIBUTE_FORMAT_UNSPECIFIED" ] }, "syncMode": { "title": "Sync mode override", "description": "Overrides the default sync mode of the IDP for this mapper. Values are: 'legacy' to keep the behaviour before this option was introduced, 'import' to only import the user once during first login of the user with this identity provider, 'force' to always update the user during every login with this identity provider and 'inherit' to use the sync mode defined in the identity provider for this mapper.", "type": "string", "enum": [ "INHERIT", "IMPORT", "LEGACY", "FORCE" ] }, "user.attribute": { "title": "User Attribute Name", "description": "Name of user attribute you want to hardcode", "type": "string" } }, "additionalProperties": { "type": "string" } }, "id": { "type": "string" }, "identityProviderAlias": { "type": "string" }, "identityProviderMapper": { "type": "string" }, "name": { "title": "Name", "description": "Name of the mapper.", "type": "string" } }, "additionalProperties": false } ``` </details>
                 properties:
                   config:
-                    additionalProperties:
-                      type: string
+                    description: |-
+                      IdentityProviderMapperRepresentationConfig
+
+                      <details><summary>JSON schema</summary>
+
+                      ```json { "type": "object", "properties": { "attribute.friendly.name": { "title": "Friendly name", "description": "Friendly name of attribute to search for in assertion. You can leave this blank and specify a name instead.", "type": "string" }, "attribute.name.format": { "type": "string", "enum": [ "ATTRIBUTE_FORMAT_BASIC", "ATTRIBUTE_FORMAT_URI", "ATTRIBUTE_FORMAT_UNSPECIFIED" ] }, "syncMode": { "title": "Sync mode override", "description": "Overrides the default sync mode of the IDP for this mapper. Values are: 'legacy' to keep the behaviour before this option was introduced, 'import' to only import the user once during first login of the user with this identity provider, 'force' to always update the user during every login with this identity provider and 'inherit' to use the sync mode defined in the identity provider for this mapper.", "type": "string", "enum": [ "INHERIT", "IMPORT", "LEGACY", "FORCE" ] }, "user.attribute": { "title": "User Attribute Name", "description": "Name of user attribute you want to hardcode", "type": "string" } }, "additionalProperties": { "type": "string" } } ``` </details>
                     nullable: true
+                    properties:
+                      attribute.friendly.name:
+                        description: Friendly name of attribute to search for in assertion. You can leave this blank and specify a name instead.
+                        nullable: true
+                        type: string
+                      attribute.name.format:
+                        description: |-
+                          IdentityProviderMapperRepresentationConfigAttributeNameFormat
+
+                          <details><summary>JSON schema</summary>
+
+                          ```json { "type": "string", "enum": [ "ATTRIBUTE_FORMAT_BASIC", "ATTRIBUTE_FORMAT_URI", "ATTRIBUTE_FORMAT_UNSPECIFIED" ] } ``` </details>
+                        enum:
+                        - ATTRIBUTE_FORMAT_BASIC
+                        - ATTRIBUTE_FORMAT_URI
+                        - ATTRIBUTE_FORMAT_UNSPECIFIED
+                        nullable: true
+                        type: string
+                      syncMode:
+                        description: 'Overrides the default sync mode of the IDP for this mapper. Values are: ''legacy'' to keep the behaviour before this option was introduced, ''import'' to only import the user once during first login of the user with this identity provider, ''force'' to always update the user during every login with this identity provider and ''inherit'' to use the sync mode defined in the identity provider for this mapper.'
+                        enum:
+                        - INHERIT
+                        - IMPORT
+                        - LEGACY
+                        - FORCE
+                        nullable: true
+                        type: string
+                      user.attribute:
+                        description: Name of user attribute you want to hardcode
+                        nullable: true
+                        type: string
                     type: object
                   id:
                     nullable: true
@@ -56,6 +97,7 @@ spec:
                     nullable: true
                     type: string
                   name:
+                    description: Name of the mapper.
                     nullable: true
                     type: string
                 type: object
@@ -65,6 +107,9 @@ spec:
               identityProviderRef:
                 description: the name of the kubernetes object that created the identity provider.
                 type: string
+                x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
               options:
                 description: Options for the request to the Keycloak Admin API.
                 nullable: true
@@ -160,11 +205,6 @@ spec:
                       format: date-time
                       nullable: true
                       type: string
-                    lastUpdateTime:
-                      description: Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
-                      format: date-time
-                      nullable: true
-                      type: string
                     message:
                       nullable: true
                       type: string
@@ -179,14 +219,32 @@ spec:
                   - status
                   - type
                   type: object
-                nullable: true
                 type: array
+              instance:
+                anyOf:
+                - required:
+                  - instanceRef
+                - required:
+                  - clusterInstanceRef
+                properties:
+                  clusterInstanceRef:
+                    description: The name of the cluster instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: The name of the namespaced instance to which this object belongs to.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
+                type: object
               message:
                 type: string
               ready:
                 type: boolean
               resourcePath:
-                nullable: true
                 type: string
               status:
                 type: string
