@@ -1,6 +1,6 @@
 # rustcloak-operator
 
-![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.2](https://img.shields.io/badge/AppVersion-v0.2.2-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.3](https://img.shields.io/badge/AppVersion-v0.2.3-informational?style=flat-square)
 
 The helm-chart for the rustcloak-operator
 
@@ -31,6 +31,7 @@ The helm-chart for the rustcloak-operator
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
+| prometheus.enabled | bool | `false` |  |
 | readinessProbe.httpGet.path | string | `"/healthz"` |  |
 | readinessProbe.httpGet.port | string | `"http"` |  |
 | replicaCount | int | `1` | must be 1. The rustcloak-operator currently does not support multiple replicas. |
