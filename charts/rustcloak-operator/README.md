@@ -1,6 +1,6 @@
 # rustcloak-operator
 
-![Version: 0.2.7](https://img.shields.io/badge/Version-0.2.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.7](https://img.shields.io/badge/AppVersion-v0.2.7-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.3.0](https://img.shields.io/badge/AppVersion-v0.3.0-informational?style=flat-square)
 
 The helm-chart for the rustcloak-operator
 
@@ -21,7 +21,7 @@ The helm-chart for the rustcloak-operator
 | application.logLevel | string | `"info"` | one of error, warn, info, debug, trace. Also supports the [env_logger format](https://docs.rs/env_logger/latest/env_logger/#enabling-logging) |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.registry | string | `"ghcr.io/DenktMit-eG/rustcloak-operator"` |  |
+| image.registry | string | `"ghcr.io/denktmit-eg/rustcloak-operator"` |  |
 | image.repository | string | `"rustcloak-operator"` |  |
 | image.tag | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
